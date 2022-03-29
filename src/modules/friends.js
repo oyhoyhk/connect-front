@@ -27,7 +27,12 @@ const [
   REQUEST_FRIENDS_LIST,
   REQUEST_FRIENDS_LIST_SUCCESS,
   REQUEST_FRIENDS_LIST_FAILURE,
-] = createRequestActionTypes('friends/REQUST_FRIENDS_LIST');
+] = createRequestActionTypes('friends/REQUEST_FRIENDS_LIST');
+const [
+  REQUEST_MESSAGES_LIST,
+  REQUEST_MESSAGES_LIST_SUCCESS,
+  REQUEST_MESSAGES_LIST_FAILURE,
+] = createRequestActionTypes('friends/REQUEST_MESSAGES_LIST');
 
 export const loadTags = createAction(LOAD_TAGS);
 export const addTag = createAction(ADD_TAG);
@@ -38,6 +43,7 @@ export const getRecommend = createAction(GET_RECOMMEND);
 export const friendRequest = createAction(FRIEND_REQUEST);
 export const requestFriendsList = createAction(REQUEST_FRIENDS_LIST);
 export const receiveMessage = createAction(RECEIVE_MESSAGE);
+export const requestMessagesList = createAction(REQUEST_MESSAGES_LIST);
 
 const loadFriendsListSaga = createRequestSaga(LOAD_FRIENDS_LIST);
 const loadTagsSaga = createRequestSaga(LOAD_TAGS, friendsAPI.loadTags);
@@ -55,6 +61,10 @@ const requestFriendsListSaga = createRequestSaga(
   REQUEST_FRIENDS_LIST,
   friendsAPI.requestFriendsList,
 );
+const requestMessagesListSaga = createRequestSaga(
+  REQUEST_MESSAGES_LIST,
+  friendsAPI.requestMessagesList,
+);
 export function* friendsSaga() {
   yield takeLatest(LOAD_FRIENDS_LIST, loadFriendsListSaga);
   yield takeLatest(LOAD_TAGS, loadTagsSaga);
@@ -63,6 +73,7 @@ export function* friendsSaga() {
   yield takeLatest(GET_RECOMMEND, getRecommendSaga);
   yield takeLatest(FRIEND_REQUEST, friendRequestSaga);
   yield takeLatest(REQUEST_FRIENDS_LIST, requestFriendsListSaga);
+  yield takeLatest(REQUEST_MESSAGES_LIST, requestMessagesListSaga);
 }
 
 const initialState = {
@@ -150,6 +161,16 @@ export default handleActions(
     [RECEIVE_MESSAGE]: (state, { payload: data }) => ({
       ...state,
       messagesList: [...state.messagesList, data],
+    }),
+    [REQUEST_MESSAGES_LIST_SUCCESS]: (state, { payload: messagesList }) => ({
+      ...state,
+      messagesList: [
+        ...messagesList.map((message) => JSON.parse(message.SENDER_INFO)),
+      ],
+    }),
+    [REQUEST_MESSAGES_LIST_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
   },
   initialState,

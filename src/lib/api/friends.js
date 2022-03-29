@@ -18,3 +18,6 @@ export const requestFriendsList = ({ uid }) =>
 
 export const requestFriendRequestList = ({ uid }) =>
   client.get(`/api/friends/friend_request_list?uid=${uid}`);
+
+export const requestMessagesList = ({ uid }) =>
+  client.get(`/api/friends/messages?uid=${uid}`);

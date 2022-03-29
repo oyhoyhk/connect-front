@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { Link } from 'react-router-dom';
 import { css } from '../../../node_modules/styled-components/dist/styled-components.cjs';
+import NoticeList from './NoticeList';
 const HeaderBlock = styled.div`
   width: 100vw;
   height: 80px;
@@ -84,7 +85,7 @@ const Notice = styled.div`
   right: -3px;
   bottom: -3px;
 `;
-const Header = ({ user, onLogout, messages }) => {
+const Header = ({ noticeList, toggleNoticeList, user, onLogout, messages }) => {
   return (
     <HeaderBlock>
       <HeaderContents>
@@ -94,13 +95,21 @@ const Header = ({ user, onLogout, messages }) => {
         {user ? (
           <InfoBox>
             <Nickname>{user.nickname}</Nickname>
-            <NoticeContainer notice={messages ? messages.length : 0}>
+            <NoticeContainer
+              onClick={toggleNoticeList}
+              notice={messages ? messages.length : 0}
+            >
               {messages && messages.length !== 0 ? (
                 <Notice>{messages ? messages.length : 0}</Notice>
               ) : (
                 ''
               )}
             </NoticeContainer>
+            {messages && messages.length !== 0 && noticeList ? (
+              <NoticeList messages={messages}></NoticeList>
+            ) : (
+              ''
+            )}
             <Button onClick={onLogout}>로그아웃</Button>
           </InfoBox>
         ) : (

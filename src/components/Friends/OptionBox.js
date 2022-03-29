@@ -43,11 +43,11 @@ const Remove = styled(Icon)`
   background-size: 60% 70%;
   border: 2px solid #ff6e87;
 `;
-const OptionBox = ({ pid, friendRequest, type }) => {
+const OptionBox = ({ receiver, friendRequest, type }) => {
   return type === 'recommend' ? (
     <OptionContainer type={type}>
       <Chat title="채팅하기" />
-      <Add onClick={() => friendRequest(pid)} title="친구추가" />
+      <Add onClick={() => friendRequest(receiver)} title="친구추가" />
       <Remove title="관심없음" />
     </OptionContainer>
   ) : (

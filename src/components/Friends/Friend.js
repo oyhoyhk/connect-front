@@ -119,7 +119,14 @@ const OptionButton = styled.div`
   cursor: pointer;
 `;
 
-const Friend = ({ pid, friendRequest, profileImage, nickname, tags, type }) => {
+const Friend = ({
+  receiver,
+  friendRequest,
+  profileImage,
+  nickname,
+  tags,
+  type,
+}) => {
   const [optionBox, setOptionBox] = useState(false);
   const clickOptions = () => {
     setOptionBox(!optionBox);
@@ -132,7 +139,11 @@ const Friend = ({ pid, friendRequest, profileImage, nickname, tags, type }) => {
         <OptionButton onClick={clickOptions} />
       </HoverArea>
       {optionBox ? (
-        <OptionBox pid={pid} friendRequest={friendRequest} type={type} />
+        <OptionBox
+          receiver={receiver}
+          friendRequest={friendRequest}
+          type={type}
+        />
       ) : (
         ''
       )}
