@@ -33,6 +33,17 @@ const [
   REQUEST_MESSAGES_LIST_SUCCESS,
   REQUEST_MESSAGES_LIST_FAILURE,
 ] = createRequestActionTypes('friends/REQUEST_MESSAGES_LIST');
+const [
+  ACCEPT_FRIEND_REQUEST,
+  ACCEPT_FRIEND_REQUEST_SUCCESS,
+  ACCEPT_FRIEND_REQUEST_FAILURE,
+] = createRequestActionTypes('friends/ACCEPT_FRIEND_REQUEST');
+
+const [
+  REFUSE_FRIEND_REQUEST,
+  REFUSE_FRIEND_REQUEST_SUCCESS,
+  REFUSE_FRIEND_REQUEST_FAILURE,
+] = createRequestActionTypes('friend/REFUSE_FRIEND_REQUEST');
 
 export const loadTags = createAction(LOAD_TAGS);
 export const addTag = createAction(ADD_TAG);
@@ -44,6 +55,8 @@ export const friendRequest = createAction(FRIEND_REQUEST);
 export const requestFriendsList = createAction(REQUEST_FRIENDS_LIST);
 export const receiveMessage = createAction(RECEIVE_MESSAGE);
 export const requestMessagesList = createAction(REQUEST_MESSAGES_LIST);
+export const acceptFriendRequest = createAction(ACCEPT_FRIEND_REQUEST);
+export const refuseFriendRequest = createAction(REFUSE_FRIEND_REQUEST);
 
 const loadFriendsListSaga = createRequestSaga(LOAD_FRIENDS_LIST);
 const loadTagsSaga = createRequestSaga(LOAD_TAGS, friendsAPI.loadTags);
@@ -65,6 +78,15 @@ const requestMessagesListSaga = createRequestSaga(
   REQUEST_MESSAGES_LIST,
   friendsAPI.requestMessagesList,
 );
+const acceptFriendRequestSaga = createRequestSaga(
+  ACCEPT_FRIEND_REQUEST,
+  friendsAPI.acceptFriendRequest,
+);
+const refuseFriendRequestSaga = createRequestSaga(
+  REFUSE_FRIEND_REQUEST,
+  friendsAPI.refuseFriendRequest,
+);
+
 export function* friendsSaga() {
   yield takeLatest(LOAD_FRIENDS_LIST, loadFriendsListSaga);
   yield takeLatest(LOAD_TAGS, loadTagsSaga);
@@ -74,6 +96,8 @@ export function* friendsSaga() {
   yield takeLatest(FRIEND_REQUEST, friendRequestSaga);
   yield takeLatest(REQUEST_FRIENDS_LIST, requestFriendsListSaga);
   yield takeLatest(REQUEST_MESSAGES_LIST, requestMessagesListSaga);
+  yield takeLatest(ACCEPT_FRIEND_REQUEST, acceptFriendRequestSaga);
+  yield takeLatest(REFUSE_FRIEND_REQUEST, refuseFriendRequestSaga);
 }
 
 const initialState = {
@@ -169,6 +193,30 @@ export default handleActions(
       ],
     }),
     [REQUEST_MESSAGES_LIST_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [ACCEPT_FRIEND_REQUEST_SUCCESS]: (
+      state,
+      { payload: { friendsList, messagesList } },
+    ) => ({
+      ...state,
+      messagesList: [
+        ...messagesList.map((message) => JSON.parse(message.SENDER_INFO)),
+      ],
+      friendsList: [...friendsList],
+    }),
+    [ACCEPT_FRIEND_REQUEST_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [REFUSE_FRIEND_REQUEST_SUCCESS]: (state, { payload: messagesList }) => ({
+      ...state,
+      messagesList: [
+        ...messagesList.map((message) => JSON.parse(message.SENDER_INFO)),
+      ],
+    }),
+    [REFUSE_FRIEND_REQUEST_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
     }),

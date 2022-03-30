@@ -2,7 +2,7 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import palette from '../../lib/styles/palette';
 
-const MessageContainer = styled.div`
+const MessageBox = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
@@ -96,14 +96,14 @@ const Message = ({ action, idx, send, received, nickname, msg }) => {
       {nickname}님이 {action === 'in' ? '입장' : '퇴장'}하셨습니다.
     </AlarmMessage>
   ) : (
-    <MessageContainer send={send} received={received} key={idx}>
+    <MessageBox send={send} received={received} key={idx}>
       <MessageBlock send={send} received={received}>
         {received ? <Nickname>{nickname}</Nickname> : ''}
         <Text send={send} received={received}>
           {msg}
         </Text>
       </MessageBlock>
-    </MessageContainer>
+    </MessageBox>
   );
 };
 

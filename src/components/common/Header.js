@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { Link } from 'react-router-dom';
-import { css } from '../../../node_modules/styled-components/dist/styled-components.cjs';
 import NoticeList from './NoticeList';
 const HeaderBlock = styled.div`
   width: 100vw;
@@ -100,16 +99,17 @@ const Header = ({ noticeList, toggleNoticeList, user, onLogout, messages }) => {
               notice={messages ? messages.length : 0}
             >
               {messages && messages.length !== 0 ? (
-                <Notice>{messages ? messages.length : 0}</Notice>
+                <Notice>{messages ? messages.length : 0} </Notice>
+              ) : (
+                ''
+              )}
+              {messages && messages.length !== 0 && noticeList ? (
+                <NoticeList uid={user.uid} messages={messages} />
               ) : (
                 ''
               )}
             </NoticeContainer>
-            {messages && messages.length !== 0 && noticeList ? (
-              <NoticeList messages={messages}></NoticeList>
-            ) : (
-              ''
-            )}
+
             <Button onClick={onLogout}>로그아웃</Button>
           </InfoBox>
         ) : (

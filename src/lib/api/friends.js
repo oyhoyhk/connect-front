@@ -21,3 +21,9 @@ export const requestFriendRequestList = ({ uid }) =>
 
 export const requestMessagesList = ({ uid }) =>
   client.get(`/api/friends/messages?uid=${uid}`);
+
+export const acceptFriendRequest = ({ sender, receiver }) =>
+  client.post('/api/friends/messages', { sender, receiver });
+
+export const refuseFriendRequest = ({ sender, receiver }) =>
+  client.delete(`/api/friends/messages?sender=${sender}&receiver=${receiver}`);
