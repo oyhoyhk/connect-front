@@ -6,7 +6,7 @@ import {
   refuseFriendRequest,
 } from '../../modules/friends';
 
-const NoticeContainer = ({ sender, profileImage, nickname }) => {
+const NoticeContainer = ({ sender, profileImage, nickname, type, time }) => {
   const dispatch = useDispatch();
   const [receiver, setReceiver] = useState(null);
   useEffect(() => {
@@ -26,6 +26,8 @@ const NoticeContainer = ({ sender, profileImage, nickname }) => {
     <Notice
       key={sender}
       profileImage={profileImage}
+      type={type}
+      time={time}
       nickname={nickname}
       onAccept={onAccept}
       onRefuse={onRefuse}

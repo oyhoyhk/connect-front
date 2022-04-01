@@ -58,9 +58,9 @@ const ProfileSettingContainer = () => {
 
   useEffect(() => {
     if (user) {
-      navigate('/');
       dispatch(initializeForm('register'));
       localStorage.setItem('user', JSON.stringify(user));
+      navigate('/friends');
     }
   }, [navigate, user, dispatch]);
   return (

@@ -150,9 +150,12 @@ const Friend = ({
 
       {tags ? (
         <TagsContainer optionBox={optionBox} type={type}>
-          {tags.split('_').map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
+          {tags
+            .split('_')
+            .filter((el) => el !== '')
+            .map((tag) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
         </TagsContainer>
       ) : (
         ''

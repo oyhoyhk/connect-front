@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import styled from 'styled-components';
 
 const NoticeBlock = styled.div`
@@ -13,6 +13,11 @@ const NoticeBlock = styled.div`
     border-top: none;
   }
 `;
+const LeftBlock = styled.div`
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+`;
 const ProfileImage = styled.div`
   width: 50px;
   height: 50px;
@@ -24,6 +29,13 @@ const ProfileImage = styled.div`
     profileImage
       ? `background-image : url(${profileImage});`
       : `background-image : url('/img/default_profile.jpg');`}
+`;
+const Time = styled.div`
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+  margin-top: 5px;
+  font-size: 0.7rem;
+  font-weight: normal;
 `;
 const Text = styled.div`
   display: flex;
@@ -57,21 +69,44 @@ const Refuse = styled(Button)`
   border: 2px solid #ff6f88;
   background: pink;
 `;
+const Cancel = styled(Button)`
+  border: 2px solid gray;
+  background: #eeeeee;
+  color: #a3a3a3;
+`;
 
-const Notice = ({ profileImage, nickname, onAccept, onRefuse }) => {
+const Notice = ({ profileImage, type, time, nickname, onAccept, onRefuse }) => {
+  const clickHandler = useCallback((e) => e.stopPropagation(), []);
   return (
-    <NoticeBlock>
-      <ProfileImage profileImage={profileImage} />
-      <Text>
-        <div>
-          <b>{nickname}</b>님이 <br />
-          친구 요청을 했습니다.
-        </div>
-        <ButtonContainer>
-          <Accept onClick={onAccept}>수락</Accept>
-          <Refuse onClick={onRefuse}>거절</Refuse>
-        </ButtonContainer>
-      </Text>
+    <NoticeBlock onClick={clickHandler}>
+      <LeftBlock>
+        <ProfileImage profileImage={profileImage} />
+        <Time>{time}</Time>
+      </LeftBlock>
+      {type === 'received' ? (
+        <Text>
+          <div>
+            <b>{nickname}</b>님이 <br />
+            친구 요청을 했습니다.
+          </div>
+          <ButtonContainer>
+            <Accept onClick={onAccept}>수락</Accept>
+            <Refuse onClick={onRefuse}>거절</Refuse>
+          </ButtonContainer>
+        </Text>
+      ) : type === 'sendered' ? (
+        <Text>
+          <div>
+            <b>{nickname}</b>님에게 <br />
+            친구 요청을 했습니다.
+          </div>
+          <ButtonContainer>
+            <Cancel>취소</Cancel>
+          </ButtonContainer>
+        </Text>
+      ) : (
+        ''
+      )}
     </NoticeBlock>
   );
 };

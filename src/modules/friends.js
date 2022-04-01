@@ -8,6 +8,7 @@ import * as friendsAPI from '../lib/api/friends';
 const REMOVE_TAG_IN_FRONT = 'friends/REMOVE_TAG_IN_FRONT';
 const ADD_TAG_IN_FRONT = 'friends/ADD_TAG_IN_FRONT';
 const RECEIVE_MESSAGE = 'frends/RECEIVE_MESSAGE';
+const FRIEND_REQUEST_ACCEPTED = 'friends/FRIEND_REQUEST_ACCEPTED';
 const [
   LOAD_FRIENDS_LIST,
   LOAD_FRIENDS_LIST_SUCCESS,
@@ -57,6 +58,7 @@ export const receiveMessage = createAction(RECEIVE_MESSAGE);
 export const requestMessagesList = createAction(REQUEST_MESSAGES_LIST);
 export const acceptFriendRequest = createAction(ACCEPT_FRIEND_REQUEST);
 export const refuseFriendRequest = createAction(REFUSE_FRIEND_REQUEST);
+export const friendsRequestAccepted = createAction(FRIEND_REQUEST_ACCEPTED);
 
 const loadFriendsListSaga = createRequestSaga(LOAD_FRIENDS_LIST);
 const loadTagsSaga = createRequestSaga(LOAD_TAGS, friendsAPI.loadTags);
@@ -186,12 +188,19 @@ export default handleActions(
       ...state,
       messagesList: [...state.messagesList, data],
     }),
-    [REQUEST_MESSAGES_LIST_SUCCESS]: (state, { payload: messagesList }) => ({
-      ...state,
-      messagesList: [
-        ...messagesList.map((message) => JSON.parse(message.SENDER_INFO)),
-      ],
-    }),
+    [REQUEST_MESSAGES_LIST_SUCCESS]: (state, { payload: messagesList }) => {
+      console.log(messagesList);
+      const result = messagesList.map((el) => {
+        const info = JSON.parse(el.info);
+        info.type = el.type;
+        info.time = el.CREATED_AT.slice(2, 10).split('-').join('.');
+        return info;
+      });
+      return {
+        ...state,
+        messagesList: [...result],
+      };
+    },
     [REQUEST_MESSAGES_LIST_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
@@ -219,6 +228,10 @@ export default handleActions(
     [REFUSE_FRIEND_REQUEST_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
+    }),
+    [FRIEND_REQUEST_ACCEPTED]: (state, { payload: info }) => ({
+      ...state,
+      friendsList: [...state.friendsList, info],
     }),
   },
   initialState,

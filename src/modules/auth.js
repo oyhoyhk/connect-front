@@ -116,11 +116,14 @@ const auth = handleActions(
         [type.type]: type.value,
       },
     }),
-    [REGISTER_SUCCESS]: (state, action) => ({
-      ...state,
-      authError: null,
-      auth: { ...action.payload },
-    }),
+    [REGISTER_SUCCESS]: (state, action) => {
+      console.log(action);
+      return {
+        ...state,
+        authError: null,
+        auth: { ...action.payload },
+      };
+    },
     [REGISTER_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,

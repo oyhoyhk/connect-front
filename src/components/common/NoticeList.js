@@ -14,11 +14,15 @@ const NoticeListBlock = styled.div`
   font-size: 1rem;
 `;
 
-const NoticeList = ({ messages, onAccept, onRefuse }) => {
+const NoticeList = ({ messages }) => {
+  console.log(messages);
   return (
     <NoticeListBlock>
-      {messages.map(({ uid, profileImage, nickname }) => (
+      {messages.map(({ type, time, uid, profileImage, nickname }) => (
         <NoticeContainer
+          type={type}
+          time={time}
+          key={uid}
           sender={uid}
           profileImage={profileImage}
           nickname={nickname}

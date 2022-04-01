@@ -48,9 +48,9 @@ const LoginContainer = () => {
   useEffect(() => {
     if (user) {
       dispatch(initializeForm('login'));
-      navigate('/');
       try {
         localStorage.setItem('user', JSON.stringify(user));
+        navigate('/friends');
       } catch (e) {
         console.error(e);
       }
