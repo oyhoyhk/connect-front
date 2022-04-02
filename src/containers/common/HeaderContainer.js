@@ -5,7 +5,8 @@ import Navigation from '../../components/common/Navigation';
 import { removeAuth } from '../../modules/auth';
 import { initializeChatHall, leaveChatHall } from '../../modules/chatHall';
 import {
-  friendsRequestAccepted,
+  friendRequestAccepted,
+  friendRequestRefused,
   getRecommend,
   receiveMessage,
   requestMessagesList,
@@ -40,12 +41,20 @@ const HeaderContainer = () => {
       const { uid } = user;
       dispatch(requestMessagesList({ uid }));
       socket.on('friend_request', (data) => {
-        console.log(data);
-        dispatch(receiveMessage(data));
+        const { info } = data;
+        info.time = data.time;
+        info.type = 'received';
+        dispatch(receiveMessage(info));
       });
       socket.on('friend_request_accepted', (data) => {
-        dispatch(friendsRequestAccepted(data));
+        dispatch(friendRequestAccepted(data));
         dispatch(getRecommend({ filter: user.tags, uid: user.uid }));
+      });
+      socket.on('friend_request_refused', (data) => {
+        dispatch(friendRequestRefused(Number(data)));
+      });
+      socket.on('friend_request_canceled', (data) => {
+        dispatch(friendRequestRefused(Number(data)));
       });
     }
     return () => {

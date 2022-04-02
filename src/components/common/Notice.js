@@ -75,7 +75,15 @@ const Cancel = styled(Button)`
   color: #a3a3a3;
 `;
 
-const Notice = ({ profileImage, type, time, nickname, onAccept, onRefuse }) => {
+const Notice = ({
+  profileImage,
+  type,
+  time,
+  nickname,
+  onAccept,
+  onRefuse,
+  onCancel,
+}) => {
   const clickHandler = useCallback((e) => e.stopPropagation(), []);
   return (
     <NoticeBlock onClick={clickHandler}>
@@ -101,7 +109,7 @@ const Notice = ({ profileImage, type, time, nickname, onAccept, onRefuse }) => {
             친구 요청을 했습니다.
           </div>
           <ButtonContainer>
-            <Cancel>취소</Cancel>
+            <Cancel onClick={onCancel}>취소</Cancel>
           </ButtonContainer>
         </Text>
       ) : (

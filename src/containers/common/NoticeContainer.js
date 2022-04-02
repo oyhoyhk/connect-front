@@ -9,6 +9,7 @@ import {
 const NoticeContainer = ({ sender, profileImage, nickname, type, time }) => {
   const dispatch = useDispatch();
   const [receiver, setReceiver] = useState(null);
+
   useEffect(() => {
     if (localStorage.user) {
       setReceiver(JSON.parse(localStorage.getItem('user')).uid);
@@ -20,7 +21,19 @@ const NoticeContainer = ({ sender, profileImage, nickname, type, time }) => {
   };
   const onRefuse = (e) => {
     e.stopPropagation();
-    dispatch(refuseFriendRequest({ sender, receiver }));
+    dispatch(refuseFriendRequest({ sender, receiver, type: 'refuse' }));
+  };
+  const onCancel = (e) => {
+    e.stopPropagation();
+    // const sender = JSON.parse(localStorage.user).uid;
+    console.log('cancel', sender, receiver);
+    dispatch(
+      refuseFriendRequest({
+        sender: receiver,
+        receiver: sender,
+        type: 'cancel',
+      }),
+    );
   };
   return (
     <Notice
@@ -31,6 +44,7 @@ const NoticeContainer = ({ sender, profileImage, nickname, type, time }) => {
       nickname={nickname}
       onAccept={onAccept}
       onRefuse={onRefuse}
+      onCancel={onCancel}
     />
   );
 };

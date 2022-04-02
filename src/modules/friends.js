@@ -9,6 +9,9 @@ const REMOVE_TAG_IN_FRONT = 'friends/REMOVE_TAG_IN_FRONT';
 const ADD_TAG_IN_FRONT = 'friends/ADD_TAG_IN_FRONT';
 const RECEIVE_MESSAGE = 'frends/RECEIVE_MESSAGE';
 const FRIEND_REQUEST_ACCEPTED = 'friends/FRIEND_REQUEST_ACCEPTED';
+const FRIEND_REQUEST_REFUSED = 'friends/FRIEND_REQUEST_REFUSED';
+const ADD_MESSAGE_WHEN_FRIEND_REQUEST =
+  'friends/ADD_MESSAGE_WHEN_FRIEND_REQUEST';
 const [
   LOAD_FRIENDS_LIST,
   LOAD_FRIENDS_LIST_SUCCESS,
@@ -46,6 +49,12 @@ const [
   REFUSE_FRIEND_REQUEST_FAILURE,
 ] = createRequestActionTypes('friend/REFUSE_FRIEND_REQUEST');
 
+const [
+  CANCEL_FRIEND_REQUEST,
+  CANCEL_FRIEND_REQUEST_SUCCESS,
+  CANCEL_FRIEND_REQUEST_FAILURE,
+] = createRequestActionTypes('friend/CANCEL_FRIEND_REQUEST');
+
 export const loadTags = createAction(LOAD_TAGS);
 export const addTag = createAction(ADD_TAG);
 export const addTagInFront = createAction(ADD_TAG_IN_FRONT);
@@ -58,8 +67,12 @@ export const receiveMessage = createAction(RECEIVE_MESSAGE);
 export const requestMessagesList = createAction(REQUEST_MESSAGES_LIST);
 export const acceptFriendRequest = createAction(ACCEPT_FRIEND_REQUEST);
 export const refuseFriendRequest = createAction(REFUSE_FRIEND_REQUEST);
-export const friendsRequestAccepted = createAction(FRIEND_REQUEST_ACCEPTED);
-
+export const friendRequestAccepted = createAction(FRIEND_REQUEST_ACCEPTED);
+export const friendRequestRefused = createAction(FRIEND_REQUEST_REFUSED);
+export const addMessageWhenFriendRequest = createAction(
+  ADD_MESSAGE_WHEN_FRIEND_REQUEST,
+);
+export const cancelFriendRequest = createAction(CANCEL_FRIEND_REQUEST);
 const loadFriendsListSaga = createRequestSaga(LOAD_FRIENDS_LIST);
 const loadTagsSaga = createRequestSaga(LOAD_TAGS, friendsAPI.loadTags);
 const addTagSaga = createRequestSaga(ADD_TAG, friendsAPI.addTag);
@@ -186,7 +199,7 @@ export default handleActions(
     }),
     [RECEIVE_MESSAGE]: (state, { payload: data }) => ({
       ...state,
-      messagesList: [...state.messagesList, data],
+      messagesList: [...state.messagesList, { ...data }],
     }),
     [REQUEST_MESSAGES_LIST_SUCCESS]: (state, { payload: messagesList }) => {
       console.log(messagesList);
@@ -219,12 +232,20 @@ export default handleActions(
       ...state,
       error,
     }),
-    [REFUSE_FRIEND_REQUEST_SUCCESS]: (state, { payload: messagesList }) => ({
-      ...state,
-      messagesList: [
-        ...messagesList.map((message) => JSON.parse(message.SENDER_INFO)),
-      ],
-    }),
+    [REFUSE_FRIEND_REQUEST_SUCCESS]: (state, { payload: messagesList }) => {
+      const result = messagesList.map((message) => {
+        message.info = JSON.parse(message.info);
+        message.info.time = message.CREATED_AT.slice(0, 10)
+          .split('-')
+          .join('.');
+        message.info.type = message.type;
+        return message.info;
+      });
+      return {
+        ...state,
+        messagesList: [...result],
+      };
+    },
     [REFUSE_FRIEND_REQUEST_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
@@ -232,6 +253,33 @@ export default handleActions(
     [FRIEND_REQUEST_ACCEPTED]: (state, { payload: info }) => ({
       ...state,
       friendsList: [...state.friendsList, info],
+    }),
+    [FRIEND_REQUEST_REFUSED]: (state, { payload: uid }) => {
+      console.log(uid);
+      return {
+        ...state,
+        messagesList: state.messagesList.filter((el) => el.uid !== uid),
+      };
+    },
+    [ADD_MESSAGE_WHEN_FRIEND_REQUEST]: (state, { payload: receiver }) => ({
+      ...state,
+      messagesList: [{ ...receiver }, ...state.messagesList],
+    }),
+    [CANCEL_FRIEND_REQUEST_SUCCESS]: (state, { payload: messagesList }) => {
+      const result = messagesList.map((el) => {
+        const info = JSON.parse(el.info);
+        info.type = el.type;
+        info.time = el.CREATED_AT.slice(2, 10).split('-').join('.');
+        return info;
+      });
+      return {
+        ...state,
+        messagesList: [...result],
+      };
+    },
+    [CANCEL_FRIEND_REQUEST_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
   },
   initialState,

@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import RecommendList from '../../components/Friends/RecommendList';
-import { getRecommend, friendRequest } from '../../modules/friends';
+import {
+  getRecommend,
+  friendRequest,
+  addMessageWhenFriendRequest,
+} from '../../modules/friends';
 
 const RecommendContainer = () => {
   const dispatch = useDispatch();
@@ -21,8 +25,9 @@ const RecommendContainer = () => {
   };
   const requestFriendEnrollment = (receiver) => {
     const sender = JSON.parse(localStorage.user);
-
     dispatch(friendRequest({ sender, receiver }));
+    receiver.type = 'sendered';
+    dispatch(addMessageWhenFriendRequest(receiver));
   };
   return (
     <RecommendList
