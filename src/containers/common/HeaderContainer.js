@@ -61,7 +61,11 @@ const HeaderContainer = () => {
       socket.off();
     };
   }, [dispatch, user]);
-  useEffect(() => {});
+  useEffect(() => {
+    if (!localStorage.getItem('user')) {
+      navigate('/');
+    }
+  }, [navigate]);
   return (
     <>
       <Header

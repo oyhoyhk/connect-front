@@ -120,17 +120,17 @@ const OptionButton = styled.div`
 `;
 
 const Friend = ({
+  clickOptions,
   receiver,
   friendRequest,
   profileImage,
   nickname,
   tags,
   type,
+  optionBox,
+  onChatting,
 }) => {
-  const [optionBox, setOptionBox] = useState(false);
-  const clickOptions = () => {
-    setOptionBox(!optionBox);
-  };
+  console.log('in Friend', optionBox);
   return (
     <FriendBlock>
       <HoverArea>
@@ -140,6 +140,8 @@ const Friend = ({
       </HoverArea>
       {optionBox ? (
         <OptionBox
+          clickOptions={clickOptions}
+          onChatting={onChatting}
           receiver={receiver}
           friendRequest={friendRequest}
           type={type}

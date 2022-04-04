@@ -5,6 +5,8 @@ import MainPage from './pages/MainPage';
 import ProfileSettingPage from './pages/ProfileSettingPage';
 import RegisterPage from './pages/RegisterPage';
 import FriendsPage from './pages/FriendsPage';
+import ChattingPage from './pages/ChattingPage';
+
 const App = () => {
   return (
     <Routes>
@@ -13,6 +15,7 @@ const App = () => {
       <Route element={<RegisterPage />} path="/register" />
       <Route element={<ProfileSettingPage />} path="/profile" />
       <Route element={<FriendsPage />} path="/friends" />
+      <Route element={<ChattingPage />} path="/chatting" />
     </Routes>
   );
 };

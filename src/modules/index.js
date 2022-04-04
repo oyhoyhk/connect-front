@@ -5,12 +5,14 @@ import loading from './loading';
 import user, { userSaga } from './user';
 import chatHall, { chatHallSaga } from './chatHall';
 import friends, { friendsSaga } from './friends';
+import chatting from './chatting';
 const rootReducer = combineReducers({
   auth,
   loading,
   user,
   chatHall,
   friends,
+  chatting,
 });
 
 export function* rootSaga() {

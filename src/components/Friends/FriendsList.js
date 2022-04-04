@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { css } from '../../../node_modules/styled-components/dist/styled-components.cjs';
+import FriendContainer from '../../containers/Friends/FriendContainer.js';
 import Friend from './Friend';
 
 const FriendsListContainer = styled.div`
@@ -9,6 +10,7 @@ const FriendsListContainer = styled.div`
   align-items: center;
   flex-direction: column;
   width: 220px;
+  height: 100%;
 `;
 const FriendsListTitle = styled.div`
   width: 50%;
@@ -62,9 +64,10 @@ const FriendsList = ({ friendsList, pagination, total }) => {
     <FriendsListContainer>
       <FriendsListTitle>친구 목록</FriendsListTitle>
       <FriendsListBlock>
-        {friendsList.map(({ profileImage, nickname, tags }, idx) => (
-          <Friend
+        {friendsList.map(({ uid, profileImage, nickname, tags }, idx) => (
+          <FriendContainer
             key={idx}
+            receiver={uid}
             profileImage={profileImage}
             nickname={nickname}
             tags={tags}

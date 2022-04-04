@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios from '../../../node_modules/axios/index';
 import ProfileImage from '../../components/Friends/ProfileImage';
 import FriendsListContainer from './FriendsListContainer';
 import RecommendContainer from './RecommendContainer';
@@ -8,6 +7,7 @@ import TagContainer from './TagContainer';
 
 const FriendsContainerBlock = styled.div`
   width: 800px;
+  height: 650px;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
