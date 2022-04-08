@@ -26,10 +26,9 @@ function checkFailureSaga() {
   }
 }
 
-function* logoutSaga() {
-  console.log('in logoutSaga');
+function* logoutSaga({ payload: { uid } }) {
   try {
-    yield call(authAPI.logout);
+    yield call(authAPI.logout, uid);
     localStorage.removeItem('user');
   } catch (e) {
     console.log(e);

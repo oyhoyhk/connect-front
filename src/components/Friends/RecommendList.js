@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Friend from './Friend';
+import FriendContainer from '../../containers/Friends/FriendContainer';
 
 const RecommendListContainer = styled.div`
   display: flex;
@@ -59,7 +59,7 @@ const RecommendList = ({ friendRequest, onRefresh, recommendList }) => {
             profileImage: person.profileImage,
           };
           return (
-            <Friend
+            <FriendContainer
               friendRequest={friendRequest}
               type="recommend"
               key={person.uid}

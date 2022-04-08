@@ -10,6 +10,8 @@ const ADD_TAG_IN_FRONT = 'friends/ADD_TAG_IN_FRONT';
 const RECEIVE_MESSAGE = 'frends/RECEIVE_MESSAGE';
 const FRIEND_REQUEST_ACCEPTED = 'friends/FRIEND_REQUEST_ACCEPTED';
 const FRIEND_REQUEST_REFUSED = 'friends/FRIEND_REQUEST_REFUSED';
+const SOMEONE_LOGIN = 'friends/SOMEONE_LOGIN';
+const SOMEONE_LOGOUT = 'friends/SOMEONE_LOGOUT';
 const ADD_MESSAGE_WHEN_FRIEND_REQUEST =
   'friends/ADD_MESSAGE_WHEN_FRIEND_REQUEST';
 const [
@@ -73,6 +75,9 @@ export const addMessageWhenFriendRequest = createAction(
   ADD_MESSAGE_WHEN_FRIEND_REQUEST,
 );
 export const cancelFriendRequest = createAction(CANCEL_FRIEND_REQUEST);
+export const someoneLogin = createAction(SOMEONE_LOGIN);
+export const someoneLogout = createAction(SOMEONE_LOGOUT);
+
 const loadFriendsListSaga = createRequestSaga(LOAD_FRIENDS_LIST);
 const loadTagsSaga = createRequestSaga(LOAD_TAGS, friendsAPI.loadTags);
 const addTagSaga = createRequestSaga(ADD_TAG, friendsAPI.addTag);
@@ -280,6 +285,18 @@ export default handleActions(
     [CANCEL_FRIEND_REQUEST_FAILURE]: (state, { payload: error }) => ({
       ...state,
       error,
+    }),
+    [SOMEONE_LOGIN]: (state, { payload: uid }) => ({
+      ...state,
+      friendsList: state.friendsList.map((friend) =>
+        friend.uid === uid ? { ...friend, status: true } : { ...friend },
+      ),
+    }),
+    [SOMEONE_LOGOUT]: (state, { payload: uid }) => ({
+      ...state,
+      friendsList: state.friendsList.map((friend) =>
+        friend.uid === uid ? { ...friend, status: false } : { ...friend },
+      ),
     }),
   },
   initialState,

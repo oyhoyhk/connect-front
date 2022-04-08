@@ -4,7 +4,15 @@ import { useNavigate } from '../../../node_modules/react-router/index';
 import Friend from '../../components/Friends/Friend';
 import { setOtherToChat } from '../../modules/chatting';
 
-const FriendContainer = ({ receiver, profileImage, nickname, tags, type }) => {
+const FriendContainer = ({
+  friendRequest,
+  receiver,
+  profileImage,
+  nickname,
+  tags,
+  type,
+  status,
+}) => {
   const [optionBox, setOptionBox] = useState(false);
   const clickOptions = () => {
     setOptionBox(!optionBox);
@@ -19,6 +27,7 @@ const FriendContainer = ({ receiver, profileImage, nickname, tags, type }) => {
   };
   return (
     <Friend
+      friendRequest={friendRequest}
       clickOptions={clickOptions}
       optionBox={optionBox}
       type={type}
@@ -27,6 +36,7 @@ const FriendContainer = ({ receiver, profileImage, nickname, tags, type }) => {
       profileImage={profileImage}
       receiver={receiver}
       onChatting={onChatting}
+      status={status}
     />
   );
 };

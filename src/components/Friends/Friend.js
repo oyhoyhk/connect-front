@@ -5,13 +5,13 @@ import OptionBox from './OptionBox.js';
 
 const FriendBlock = styled.div`
   margin: 0 auto;
-  width: 200px;
+  width: 220px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   height: 50px;
   border-radius: 10px;
-  padding: 4px;
+  padding: 4px 0;
   transition: 0.3s;
   &:hover {
     background: #73b2ff;
@@ -118,7 +118,16 @@ const OptionButton = styled.div`
   background-position: center center;
   cursor: pointer;
 `;
-
+const Status = styled.div`
+  width: 8px;
+  height: 25px;
+  background: linear-gradient(-45deg, black, lightgray);
+  border-radius: 10px;
+  ${({ status }) =>
+    status
+      ? `background:linear-gradient(-45deg, lime, lightgray)`
+      : `background:linear-gradient(-45deg, black, lightgray)`}
+`;
 const Friend = ({
   clickOptions,
   receiver,
@@ -129,11 +138,12 @@ const Friend = ({
   type,
   optionBox,
   onChatting,
+  status,
 }) => {
-  console.log('in Friend', optionBox);
   return (
     <FriendBlock>
       <HoverArea>
+        <Status status={status} />
         <ProfileImage profileImage={profileImage} />
         <Nickname>{nickname}</Nickname>
         <OptionButton onClick={clickOptions} />

@@ -12,7 +12,7 @@ export const register = ({ formData }) =>
   });
 export const check = () => client.get('/api/auth/check');
 
-export const logout = () => client.post('/api/auth/logout');
+export const logout = (uid) => client.post('/api/auth/logout?uid=' + uid);
 
 export const duplicateCheck = ({ username }) =>
   client.post('/api/auth/duplicate_check', { username });

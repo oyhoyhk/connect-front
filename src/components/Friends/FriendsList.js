@@ -64,16 +64,19 @@ const FriendsList = ({ friendsList, pagination, total }) => {
     <FriendsListContainer>
       <FriendsListTitle>친구 목록</FriendsListTitle>
       <FriendsListBlock>
-        {friendsList.map(({ uid, profileImage, nickname, tags }, idx) => (
-          <FriendContainer
-            key={idx}
-            receiver={uid}
-            profileImage={profileImage}
-            nickname={nickname}
-            tags={tags}
-            type="friends"
-          />
-        ))}
+        {friendsList.map(
+          ({ status, uid, profileImage, nickname, tags }, idx) => (
+            <FriendContainer
+              status={status}
+              key={idx}
+              receiver={uid}
+              profileImage={profileImage}
+              nickname={nickname}
+              tags={tags}
+              type="friends"
+            />
+          ),
+        )}
         {total > 1 ? (
           <CustomScroll pagination={pagination} total={total} />
         ) : (

@@ -10,6 +10,8 @@ import {
   getRecommend,
   receiveMessage,
   requestMessagesList,
+  someoneLogin,
+  someoneLogout,
 } from '../../modules/friends';
 import { logout } from '../../modules/user';
 import { socket } from '../../lib/sockets/chatHallSocket';
@@ -26,7 +28,7 @@ const HeaderContainer = () => {
     setNoticeList(!noticeList);
   }, [noticeList]);
   const onLogout = () => {
-    dispatch(logout());
+    dispatch(logout({ uid: user.uid }));
     dispatch(removeAuth());
     if (localStorage.chatHall) {
       dispatch(leaveChatHall({ username: user.username }));
@@ -55,6 +57,12 @@ const HeaderContainer = () => {
       });
       socket.on('friend_request_canceled', (data) => {
         dispatch(friendRequestRefused(Number(data)));
+      });
+      socket.on('someone_logout', (uid) => {
+        dispatch(someoneLogout(uid));
+      });
+      socket.on('someone_login', (uid) => {
+        dispatch(someoneLogin(uid));
       });
     }
     return () => {
