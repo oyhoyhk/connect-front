@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { css } from '../../../node_modules/styled-components/dist/styled-components.cjs';
 import OptionBox from './OptionBox.js';

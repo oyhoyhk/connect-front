@@ -16,6 +16,7 @@ import {
 import { logout } from '../../modules/user';
 import { socket } from '../../lib/sockets/chatHallSocket';
 import { useNavigate } from '../../../node_modules/react-router/index';
+import { receiveChatting } from '../../modules/chatting';
 const HeaderContainer = () => {
   const { user, messages } = useSelector(({ user, friends }) => ({
     user: user.user,
@@ -64,6 +65,13 @@ const HeaderContainer = () => {
       socket.on('someone_login', (uid) => {
         dispatch(someoneLogin(uid));
       });
+      socket.on(
+        'someone_send_message',
+        ({ sender, receiver, message, time }) => {
+          console.log('someone_send_message', sender, receiver, message, time);
+          dispatch(receiveChatting({ sender, message, time }));
+        },
+      );
     }
     return () => {
       socket.off();

@@ -49,7 +49,6 @@ const ConversationTitle = styled.div`
   height: 21px;
   position: relative;
 `;
-const OtherTags = styled.div``;
 const ConversationContainer = styled.div`
   width: 100%;
   height: 580px;
@@ -62,7 +61,7 @@ const ConversationContainer = styled.div`
   justify-content: space-between;
 `;
 
-const Chatting = ({ other }) => {
+const Chatting = ({ other, logs, changeScroll }) => {
   return (
     <ChattingBlock>
       <FriendsListContainer />
@@ -75,8 +74,12 @@ const Chatting = ({ other }) => {
             </ConversationTitle>
           </OtherInfo>
           <ConversationContainer>
-            <ChattingLogs></ChattingLogs>
-            <ChattingInputContainer />
+            <ChattingLogs
+              changeScroll={changeScroll}
+              logs={logs[other.receiver]}
+              other={other}
+            />
+            <ChattingInputContainer receiver={other.receiver} />
           </ConversationContainer>
         </ConversationBlock>
       ) : (

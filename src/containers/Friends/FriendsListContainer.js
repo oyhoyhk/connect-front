@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FriendsList from '../../components/Friends/FriendsList';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';

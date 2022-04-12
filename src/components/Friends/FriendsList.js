@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { css } from '../../../node_modules/styled-components/dist/styled-components.cjs';
 import FriendContainer from '../../containers/Friends/FriendContainer.js';
-import Friend from './Friend';
 
 const FriendsListContainer = styled.div`
   display: flex;
