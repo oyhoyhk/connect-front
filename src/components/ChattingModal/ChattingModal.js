@@ -1,16 +1,27 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import ChattingInputContainer from '../../containers/Chatting/ChattingInputContainer';
+import ChattingInputContainer from '../../containers/ChattingModal/ChattingInputContainer';
 import FriendsListContainer from '../../containers/Friends/FriendsListContainer';
 import ChattingLogs from './ChattingLogs';
 import ChattingNotAvailable from './ChattingNotAvailable';
 
-const ChattingBlock = styled.div`
-  width: 800px;
-  margin: 0 auto;
-  height: 650px;
+const ChattingBackground = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
+`;
+const ChattingBlock = styled.div`
+  width: 450px;
+  height: 600px;
+  background: white;
 `;
 
 const ConversationBlock = styled.div`
@@ -18,12 +29,13 @@ const ConversationBlock = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 `;
 const OtherInfo = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 30px;
 `;
 const OtherProfileImage = styled.div`
   width: 50px;
@@ -61,32 +73,27 @@ const ConversationContainer = styled.div`
   justify-content: space-between;
 `;
 
-const Chatting = ({ other, logs, changeScroll }) => {
+const ChattingModal = ({ exitChatting, other, logs, changeScroll }) => {
+  console.log(other);
+  const stop = (e) => e.stopPropagation();
   return (
-    <ChattingBlock>
-      <FriendsListContainer />
-      {other ? (
-        <ConversationBlock>
-          <OtherInfo>
-            <ConversationTitle>
-              {other.nickname}
+    <ChattingBackground onClick={exitChatting}>
+      <div onClick={stop}>
+        <OtherInfo>
+          <ConversationTitle>
+            {other.nickname}
+            {other.profileImage && (
               <OtherProfileImage profileImage={other.profileImage} />
-            </ConversationTitle>
-          </OtherInfo>
-          <ConversationContainer>
-            <ChattingLogs
-              changeScroll={changeScroll}
-              logs={logs[other.receiver]}
-              other={other}
-            />
-            <ChattingInputContainer receiver={other.receiver} />
-          </ConversationContainer>
-        </ConversationBlock>
-      ) : (
-        <ChattingNotAvailable />
-      )}
-    </ChattingBlock>
+            )}
+          </ConversationTitle>
+        </OtherInfo>
+        <ChattingBlock>
+          <ChattingLogs logs={logs} other={other} changeScroll={changeScroll} />
+          <ChattingInputContainer receiver={other.receiver} />
+        </ChattingBlock>
+      </div>
+    </ChattingBackground>
   );
 };
 
-export default Chatting;
+export default ChattingModal;

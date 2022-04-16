@@ -5,7 +5,7 @@ import loading from './loading';
 import user, { userSaga } from './user';
 import chatHall, { chatHallSaga } from './chatHall';
 import friends, { friendsSaga } from './friends';
-import chatting from './chatting';
+import chatting, { chattingSaga } from './chatting';
 const rootReducer = combineReducers({
   auth,
   loading,
@@ -16,7 +16,13 @@ const rootReducer = combineReducers({
 });
 
 export function* rootSaga() {
-  yield all([authSaga(), userSaga(), chatHallSaga(), friendsSaga()]);
+  yield all([
+    authSaga(),
+    userSaga(),
+    chatHallSaga(),
+    friendsSaga(),
+    chattingSaga(),
+  ]);
 }
 
 export default rootReducer;

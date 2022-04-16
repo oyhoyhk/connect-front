@@ -83,15 +83,15 @@ const Time = ({ time }) => {
 
     if (messageTime.getFullYear() !== now.getFullYear())
       result += messageTime.getFullYear() + '년 ';
-    if (messageTime.getMonth() !== now.getMonth())
-      result += messageTime.getMonth() + 1 + '월\n';
+    if (messageTime.getDate() !== now.getDate())
+      result += `${messageTime.getMonth() + 1}월 ${messageTime.getDate()}일\n`;
     if (messageTime.getHours() === 0) result += '오전 12시 ';
     else if (messageTime.getHours() === 12) result += '오후 12시 ';
     else if (messageTime.getHours() < 12)
       result +=
         '오전 ' +
         (messageTime.getHours() < 10
-          ? '0' + messageTime.getHours()
+          ? '0' + messageTime.getHours() + '시 '
           : messageTime.getHours() + '시 ');
     else
       result +=

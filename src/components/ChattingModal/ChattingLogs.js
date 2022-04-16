@@ -37,12 +37,12 @@ const ChattingLogs = ({ logs, other, changeScroll }) => {
     <ChattingLogsBlock>
       <ChattingScrollContainer ref={scrollBox}>
         {logs &&
-          logs.map(({ message, type, time }, idx) => (
+          logs.map(({ msg, type, time }, idx) => (
             <ChatMessage
               key={idx}
               type={type}
               nickname={other.nickname}
-              msg={message}
+              msg={msg}
               time={time}
             />
           ))}

@@ -155,7 +155,6 @@ export default handleActions(
       error,
     }),
     [ADD_TAG_IN_FRONT]: (state, { payload: tag }) => {
-      console.log(tag);
       return {
         ...state,
         tagList: state.tagList + '_' + tag,

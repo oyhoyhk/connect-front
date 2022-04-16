@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ChattingInput from '../../components/Chatting/ChattingInput';
+import ChattingInput from '../../components/ChattingModal/ChattingInput';
 import { socket } from '../../lib/sockets/chatHallSocket';
-import { sendChatting, setOtherToChat } from '../../modules/chatting';
+import { sendChatting } from '../../modules/chatting';
 
-const ChattingInputContainer = ({ convertTime, receiver }) => {
+const ChattingInputContainer = ({ receiver }) => {
   const dispatch = useDispatch();
   const [textArea, setTextArea] = useState('');
   const onPressEnter = (e) => {
