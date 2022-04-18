@@ -22,16 +22,9 @@ const ChattingBlock = styled.div`
   width: 450px;
   height: 600px;
   background: white;
+  padding: 10px;
 `;
 
-const ConversationBlock = styled.div`
-  width: 60%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 const OtherInfo = styled.div`
   display: flex;
   justify-content: center;
@@ -61,20 +54,14 @@ const ConversationTitle = styled.div`
   height: 21px;
   position: relative;
 `;
-const ConversationContainer = styled.div`
-  width: 100%;
-  height: 580px;
-  border: 2px solid #73b2ff;
-  border-radius: 10px;
-  padding: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-`;
 
-const ChattingModal = ({ exitChatting, other, logs, changeScroll }) => {
-  console.log(other);
+const ChattingModal = ({
+  loading,
+  exitChatting,
+  other,
+  logs,
+  changeScroll,
+}) => {
   const stop = (e) => e.stopPropagation();
   return (
     <ChattingBackground onClick={exitChatting}>
@@ -88,7 +75,12 @@ const ChattingModal = ({ exitChatting, other, logs, changeScroll }) => {
           </ConversationTitle>
         </OtherInfo>
         <ChattingBlock>
-          <ChattingLogs logs={logs} other={other} changeScroll={changeScroll} />
+          <ChattingLogs
+            loading={loading}
+            logs={logs}
+            other={other}
+            changeScroll={changeScroll}
+          />
           <ChattingInputContainer receiver={other.receiver} />
         </ChattingBlock>
       </div>

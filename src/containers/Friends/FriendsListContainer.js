@@ -3,6 +3,7 @@ import FriendsList from '../../components/Friends/FriendsList';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestFriendsList } from '../../modules/friends';
+import { requestChattingList } from '../../modules/chatting';
 
 const FriendsListContainer = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const FriendsListContainer = () => {
   useEffect(() => {
     const { uid } = JSON.parse(localStorage.user);
     dispatch(requestFriendsList({ uid }));
+    dispatch(requestChattingList({ uid }));
   }, [dispatch]);
   useEffect(() => {
     window.addEventListener('wheel', scrollHandler);

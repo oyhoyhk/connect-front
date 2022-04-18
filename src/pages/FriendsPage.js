@@ -4,7 +4,7 @@ import FriendsContainer from '../containers/Friends/FriendsContainer';
 
 const FriendsPage = () => {
   return (
-    <div style={{}}>
+    <div>
       <HeaderContainer />
       <FriendsContainer />
     </div>

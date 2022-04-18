@@ -154,12 +154,10 @@ export default handleActions(
       ...state,
       error,
     }),
-    [ADD_TAG_IN_FRONT]: (state, { payload: tag }) => {
-      return {
-        ...state,
-        tagList: state.tagList + '_' + tag,
-      };
-    },
+    [ADD_TAG_IN_FRONT]: (state, { payload: tag }) => ({
+      ...state,
+      tagList: state.tagList + '_' + tag,
+    }),
     [REMOVE_TAG_SUCCESS]: (state) => ({
       ...state,
     }),
@@ -167,16 +165,13 @@ export default handleActions(
       ...state,
       error,
     }),
-    [REMOVE_TAG_IN_FRONT]: (state, { payload: tag }) => {
-      console.log(tag);
-      return {
-        ...state,
-        tagList: state.tagList
-          .split('_')
-          .filter((el) => el !== tag)
-          .join('_'),
-      };
-    },
+    [REMOVE_TAG_IN_FRONT]: (state, { payload: tag }) => ({
+      ...state,
+      tagList: state.tagList
+        .split('_')
+        .filter((el) => el !== tag)
+        .join('_'),
+    }),
     [GET_RECOMMEND_SUCCESS]: (state, { payload: list }) => ({
       ...state,
       recommendList: [...list],
@@ -206,7 +201,6 @@ export default handleActions(
       messagesList: [...state.messagesList, { ...data }],
     }),
     [REQUEST_MESSAGES_LIST_SUCCESS]: (state, { payload: messagesList }) => {
-      console.log(messagesList);
       const result = messagesList.map((el) => {
         const info = JSON.parse(el.info);
         info.type = el.type;

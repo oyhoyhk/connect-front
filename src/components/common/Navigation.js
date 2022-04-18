@@ -29,13 +29,33 @@ const NavigateLink = styled(Link)`
     color: white;
   }
 `;
-
-const Navigation = () => {
+const NewMessages = styled.div`
+  width: 25px;
+  height: 25px;
+  background: #ff6f6f;
+  color: white;
+  font-size: 0.7rem;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: -10%;
+  bottom: -10%;
+`;
+const Navigation = ({ newMessages }) => {
   return (
     <NavigationBlock>
       <NavigateLink to="/">단체 채팅</NavigateLink>
       <NavigateLink to="/friends">친구 목록</NavigateLink>
-      <NavigateLink to="/chatting">채팅 목록 </NavigateLink>
+      <NavigateLink to="/chatting" style={{ position: 'relative' }}>
+        채팅 목록
+        {newMessages !== 0 ? (
+          <NewMessages>{newMessages >= 100 ? '100+' : newMessages}</NewMessages>
+        ) : (
+          ''
+        )}
+      </NavigateLink>
       <NavigateLink to="/setting">환경 설정</NavigateLink>
     </NavigationBlock>
   );

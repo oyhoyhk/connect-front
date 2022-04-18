@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from '../../../node_modules/react-router/index';
+import { useDispatch } from 'react-redux';
 import Friend from '../../components/Friends/Friend';
-import { requestChattingLogs } from '../../modules/chatting';
+import { requestChattingLogs, startLoading } from '../../modules/chatting';
 import { openChatting, setOtherToChat } from '../../modules/chatting';
 
 const FriendContainer = ({
@@ -14,23 +13,19 @@ const FriendContainer = ({
   type,
   status,
 }) => {
-  const { logs } = useSelector(({ chatting: { logs } }) => ({ logs }));
   const [optionBox, setOptionBox] = useState(false);
   const clickOptions = () => {
     setOptionBox(!optionBox);
   };
   const dispatch = useDispatch();
   const onChatting = () => {
-    const data = { receiver, profileImage, nickname, tags };
-    console.log(data);
+    const data = { receiver, profileImage, nickname };
     dispatch(setOtherToChat(data));
     dispatch(openChatting());
+    dispatch(startLoading());
     clickOptions();
-    if (!logs[receiver]) {
-      const sender = JSON.parse(localStorage.user).uid;
-      dispatch(requestChattingLogs({ sender, receiver }));
-    }
-    console.log(logs);
+    const sender = JSON.parse(localStorage.user).uid;
+    dispatch(requestChattingLogs({ sender, receiver }));
   };
   return (
     <Friend

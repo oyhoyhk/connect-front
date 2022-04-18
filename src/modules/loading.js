@@ -17,13 +17,10 @@ const initialState = {};
 
 const loading = handleActions(
   {
-    [START_LOADING]: (state, action) => {
-      console.log('in modules/loading.js, action : ', action);
-      return {
-        ...state,
-        [action.payload]: true,
-      };
-    },
+    [START_LOADING]: (state, action) => ({
+      ...state,
+      [action.payload]: true,
+    }),
     [FINISH_LOADING]: (state, action) => ({
       ...state,
       [action.payload]: false,

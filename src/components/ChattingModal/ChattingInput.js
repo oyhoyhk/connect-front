@@ -4,8 +4,9 @@ import styled from 'styled-components';
 const ChattingInputBlock = styled.form`
   margin-top: 15px;
   width: 100%;
+  height: 15%;
   display: flex;
-  flex: 1;
+  background: #ebfffe;
 `;
 const ChattingInputLeftBox = styled.div`
   width: 80%;

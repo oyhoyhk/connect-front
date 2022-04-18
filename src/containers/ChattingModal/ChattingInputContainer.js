@@ -17,6 +17,7 @@ const ChattingInputContainer = ({ receiver }) => {
   };
   const onSubmit = (e) => {
     e.preventDefault();
+    if (textArea === '') return;
     const sender = JSON.parse(localStorage.user).uid;
     socket.emit('someone_send_message', {
       sender,

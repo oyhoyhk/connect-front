@@ -7,10 +7,13 @@ const ChattingModalContainer = () => {
   const changeScroll = useCallback((e) => {
     e.scrollTop = e.scrollHeight;
   }, []);
-  const { other, logs } = useSelector(({ chatting: { other, logs } }) => ({
-    other,
-    logs,
-  }));
+  const { other, loading, logs } = useSelector(
+    ({ chatting: { loading, other, logs } }) => ({
+      other,
+      logs,
+      loading,
+    }),
+  );
   const dispatch = useDispatch();
   const exitChatting = (e) => {
     e.stopPropagation();
@@ -23,10 +26,11 @@ const ChattingModalContainer = () => {
   }, [dispatch]);
   return (
     <ChattingModal
+      loading={loading}
       exitChatting={exitChatting}
       other={other}
       changeScroll={changeScroll}
-      logs={logs[other.receiver]}
+      logs={logs}
     />
   );
 };

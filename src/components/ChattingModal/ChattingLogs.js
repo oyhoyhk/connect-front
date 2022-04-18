@@ -27,26 +27,46 @@ const ChattingScrollContainer = styled.div`
     background: rgba(0, 0, 0, 0.4);
   }
 `;
-
-const ChattingLogs = ({ logs, other, changeScroll }) => {
+const Loading = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const LoadingImage = styled.div`
+  width: 80px;
+  height: 80px;
+  background-size: 100% 100%;
+  background-image: url('/img/loading.gif');
+`;
+const ChattingLogs = ({ loading, logs, other, changeScroll }) => {
   const scrollBox = useRef();
   useEffect(() => {
-    changeScroll(scrollBox.current);
-  }, [scrollBox, changeScroll, logs]);
+    if (!loading) {
+      changeScroll(scrollBox.current);
+    }
+  }, [scrollBox, changeScroll, logs, loading]);
   return (
     <ChattingLogsBlock>
-      <ChattingScrollContainer ref={scrollBox}>
-        {logs &&
-          logs.map(({ msg, type, time }, idx) => (
-            <ChatMessage
-              key={idx}
-              type={type}
-              nickname={other.nickname}
-              msg={msg}
-              time={time}
-            />
-          ))}
-      </ChattingScrollContainer>
+      {loading ? (
+        <Loading>
+          <LoadingImage />
+        </Loading>
+      ) : (
+        <ChattingScrollContainer ref={scrollBox}>
+          {logs &&
+            logs.map(({ msg, type, time }, idx) => (
+              <ChatMessage
+                key={idx}
+                type={type}
+                nickname={other.nickname}
+                msg={msg}
+                time={time}
+              />
+            ))}
+        </ChattingScrollContainer>
+      )}
     </ChattingLogsBlock>
   );
 };

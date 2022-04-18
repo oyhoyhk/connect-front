@@ -18,10 +18,13 @@ import { socket } from '../../lib/sockets/chatHallSocket';
 import { useNavigate } from '../../../node_modules/react-router/index';
 import { receiveChatting } from '../../modules/chatting';
 const HeaderContainer = () => {
-  const { user, messages } = useSelector(({ user, friends }) => ({
-    user: user.user,
-    messages: friends.messagesList,
-  }));
+  const { user, messages, newMessages } = useSelector(
+    ({ user, friends, chatting: { newMessages } }) => ({
+      user: user.user,
+      messages: friends.messagesList,
+      newMessages,
+    }),
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [noticeList, setNoticeList] = useState(false);
@@ -31,6 +34,9 @@ const HeaderContainer = () => {
   const onLogout = () => {
     dispatch(logout({ uid: user.uid }));
     dispatch(removeAuth());
+    if (localStorage.user) {
+      localStorage.removeItem('user');
+    }
     if (localStorage.chatHall) {
       dispatch(leaveChatHall({ username: user.username }));
       dispatch(initializeChatHall());
@@ -65,13 +71,9 @@ const HeaderContainer = () => {
       socket.on('someone_login', (uid) => {
         dispatch(someoneLogin(uid));
       });
-      socket.on(
-        'someone_send_message',
-        ({ sender, receiver, message, time }) => {
-          console.log('someone_send_message', sender, receiver, message, time);
-          dispatch(receiveChatting({ sender, message, time }));
-        },
-      );
+      socket.on('someone_send_message', (result) => {
+        dispatch(receiveChatting(result));
+      });
     }
     return () => {
       socket.off();
@@ -91,7 +93,7 @@ const HeaderContainer = () => {
         onLogout={onLogout}
         messages={messages}
       />
-      {user ? <Navigation /> : ''}
+      {user ? <Navigation newMessages={newMessages} /> : ''}
     </>
   );
 };
