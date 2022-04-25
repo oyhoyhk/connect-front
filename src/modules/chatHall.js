@@ -9,8 +9,7 @@ const [GET_GUEST_NUMBER, GET_GUEST_NUMBER_SUCCESS, GET_GUEST_NUMBER_FAILURE] =
   createRequestActionTypes('chatHall/GET_GUEST_NUMBER');
 const [GET_USER_INFO, GET_USER_INFO_SUCCESS, GET_USER_INFO_FAILURE] =
   createRequestActionTypes('chatHall/GET_USER_INFO');
-const [LEAVE_CHAT_HALL, LEAVE_CHAT_HALL_SUCCESS, LEAVE_CHAT_HALL_FAILURE] =
-  createRequestActionTypes('chatHall/LEAVE_CHAT_HALL');
+const LEAVE_CHAT_HALL = 'chatHall/LEAVE_CHAT_HALL';
 
 const SET_CHAT_HALL = 'chatHall/SET_CHAT_HALL';
 const SEND_MESSAGE = 'chatHall/SEND_MESSAGE';
@@ -36,15 +35,10 @@ const getGuestNumberSaga = createRequestSaga(
   chatHallAPI.guestNumber,
 );
 const getUserInfoSaga = createRequestSaga(GET_USER_INFO, chatHallAPI.userInfo);
-const leaveChatHallSaga = createRequestSaga(
-  LEAVE_CHAT_HALL,
-  chatHallAPI.leaveChatHall,
-);
 
 export function* chatHallSaga() {
   yield takeLatest(GET_GUEST_NUMBER, getGuestNumberSaga);
   yield takeLatest(GET_USER_INFO, getUserInfoSaga);
-  yield takeLatest(LEAVE_CHAT_HALL, leaveChatHallSaga);
 }
 const initialState = {
   user: null,
@@ -95,15 +89,9 @@ export default handleActions(
       ...state,
       error: error,
     }),
-    [LEAVE_CHAT_HALL_SUCCESS]: (state) => ({
+    [LEAVE_CHAT_HALL]: (state) => ({
       ...state,
       msgList: [],
-      user: null,
-      userList: null,
-    }),
-    [LEAVE_CHAT_HALL_FAILURE]: (state, { payload: error }) => ({
-      ...state,
-      error,
     }),
     [SOMEONE_LEFT]: (state, { payload: username }) => ({
       ...state,

@@ -1,7 +1,11 @@
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChattingModal from '../../components/ChattingModal/ChattingModal';
-import { closeChatting, initializeOther } from '../../modules/chatting';
+import {
+  closeChat,
+  closeChatting,
+  initializeOther,
+} from '../../modules/chatting';
 
 const ChattingModalContainer = () => {
   const changeScroll = useCallback((e) => {
@@ -17,6 +21,8 @@ const ChattingModalContainer = () => {
   const dispatch = useDispatch();
   const exitChatting = (e) => {
     e.stopPropagation();
+    const { uid } = JSON.parse(localStorage.user);
+    dispatch(closeChat({ sender: uid, receiver: other.receiver }));
     dispatch(closeChatting());
   };
   useEffect(() => {

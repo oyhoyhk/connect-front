@@ -281,15 +281,27 @@ export default handleActions(
     }),
     [SOMEONE_LOGIN]: (state, { payload: uid }) => ({
       ...state,
-      friendsList: state.friendsList.map((friend) =>
-        friend.uid === uid ? { ...friend, status: true } : { ...friend },
-      ),
+      friendsList: state.friendsList
+        .map((friend) =>
+          friend.uid === uid ? { ...friend, status: true } : { ...friend },
+        )
+        .sort((a, b) => {
+          if (a.status && !b.status) return -1;
+          else if (!a.status && b.status) return 1;
+          else return a.uid - b.uid;
+        }),
     }),
     [SOMEONE_LOGOUT]: (state, { payload: uid }) => ({
       ...state,
-      friendsList: state.friendsList.map((friend) =>
-        friend.uid === uid ? { ...friend, status: false } : { ...friend },
-      ),
+      friendsList: state.friendsList
+        .map((friend) =>
+          friend.uid === uid ? { ...friend, status: false } : { ...friend },
+        )
+        .sort((a, b) => {
+          if (a.status && !b.status) return -1;
+          else if (!a.status && b.status) return 1;
+          else return a.uid - b.uid;
+        }),
     }),
   },
   initialState,

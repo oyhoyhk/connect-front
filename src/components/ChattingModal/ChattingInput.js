@@ -6,7 +6,7 @@ const ChattingInputBlock = styled.form`
   width: 100%;
   height: 15%;
   display: flex;
-  background: #ebfffe;
+  padding: 10px 0;
 `;
 const ChattingInputLeftBox = styled.div`
   width: 80%;
@@ -19,7 +19,8 @@ const ChattingArea = styled.textarea`
   height: 60%;
   border: none;
   outline: none;
-  background: #fafafa;
+  background: #dcf7ff;
+  margin: 5px;
   &::-webkit-scrollbar {
     width: 6px;
     height: 8px;

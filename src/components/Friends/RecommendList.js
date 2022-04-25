@@ -52,24 +52,18 @@ const RecommendList = ({ friendRequest, onRefresh, recommendList }) => {
         <RecommendListTitle>추천 목록</RecommendListTitle>
       </RecommendListTitleContainer>
       <RecommendListBlock>
-        {recommendList.map((person) => {
-          const receiver = {
-            uid: person.uid,
-            nickname: person.nickname,
-            profileImage: person.profileImage,
-          };
-          return (
-            <FriendContainer
-              friendRequest={friendRequest}
-              type="recommend"
-              key={person.uid}
-              receiver={receiver}
-              nickname={person.nickname}
-              profileImage={person.profileImage}
-              tags={person.tags}
-            />
-          );
-        })}
+        {recommendList.map(({ uid, nickname, profileImage, tags }) => (
+          <FriendContainer
+            friendRequest={friendRequest}
+            type="recommend"
+            key={uid}
+            receiver={uid}
+            nickname={nickname}
+            profileImage={profileImage}
+            tags={tags}
+            status={true}
+          />
+        ))}
       </RecommendListBlock>
     </RecommendListContainer>
   );

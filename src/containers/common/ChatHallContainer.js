@@ -19,49 +19,41 @@ const ChatHallContainer = () => {
   const [msg, setMsg] = useState('');
   const dispatch = useDispatch();
 
-  const { user, userList, msgList } = useSelector(({ chatHall, user }) => ({
-    user: user.user !== null ? user.user : chatHall.user,
-    userList: chatHall.userList,
-    msgList: chatHall.msgList,
-  }));
-
+  const { user, userList, msgList, userInfo } = useSelector(
+    ({ chatHall, user: { user } }) => ({
+      user: chatHall.user,
+      userList: chatHall.userList,
+      msgList: chatHall.msgList,
+      userInfo: user,
+    }),
+  );
   useEffect(() => {
-    if (!user && !localStorage.chatHall) {
+    console.log('userInfo', userInfo, 'user', user);
+    if (!user) {
       dispatch(getGuestNumber());
-    }
-  }, [dispatch, user]);
+    } else {
+      const info = userInfo || user;
 
-  useEffect(() => {
-    if (localStorage.chatHall) {
-      dispatch(setChatHall(JSON.parse(localStorage.chatHall)));
-      dispatch(getUserInfo());
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (user && !localStorage.chatHall) {
       socket.emit(
         'enter',
         {
-          username: user.username,
-          nickname: user.nickname,
-          profileImage: user.profileImage,
+          username: info.username,
+          nickname: info.nickname,
+          profileImage: info.profileImage,
         },
         (response) => {
           if (response === 'success') {
-            localStorage.setItem('chatHall', JSON.stringify(user));
+            localStorage.setItem('chatHall', JSON.stringify(info));
           }
         },
       );
-      const onBeforeUnload = (e) => {
-        dispatch(leaveChatHall({ username: user.username }));
-        localStorage.removeItem('chatHall');
-      };
-      window.addEventListener('beforeunload', onBeforeUnload);
     }
-  }, [dispatch, user]);
 
-  useEffect(() => {
+    // const onBeforeUnload = (e) => {
+    //   dispatch(leaveChatHall({ username: user.username }));
+    //   localStorage.removeItem('chatHall');
+    // };
+    // window.addEventListener('beforeunload', onBeforeUnload);
     socket.on('broadcastMsg', (data) => {
       dispatch(receiveMessage({ received: true, ...data }));
     });
@@ -80,15 +72,16 @@ const ChatHallContainer = () => {
       dispatch(someoneInOut({ action: 'out', nickname: data }));
     });
     return () => {
-      if (localStorage.chatHall) {
-        const { username } = JSON.parse(localStorage.chatHall);
-        localStorage.removeItem('chatHall');
-        socket.removeAllListeners();
-        dispatch(leaveChatHall({ username }));
-        dispatch(initializeChatHall());
+      console.log('clean up');
+      if (user) {
+        const username = userInfo ? userInfo.username : user.username;
+        socket.emit('leave_chat_hall', username);
       }
+      dispatch(leaveChatHall());
+      localStorage.removeItem('chatHall');
+      socket.removeAllListeners();
     };
-  }, [dispatch]);
+  }, [dispatch, user, userInfo]);
 
   const onChange = (e) => {
     setMsg(e.target.value);

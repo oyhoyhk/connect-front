@@ -71,8 +71,8 @@ const HeaderContainer = () => {
       socket.on('someone_login', (uid) => {
         dispatch(someoneLogin(uid));
       });
-      socket.on('someone_send_message', (result) => {
-        dispatch(receiveChatting(result));
+      socket.on('someone_send_message', ({ sender, message, chatList }) => {
+        dispatch(receiveChatting({ sender, message, chatList }));
       });
     }
     return () => {
