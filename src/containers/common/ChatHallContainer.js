@@ -28,7 +28,6 @@ const ChatHallContainer = () => {
     }),
   );
   useEffect(() => {
-    console.log('userInfo', userInfo, 'user', user);
     if (!user) {
       dispatch(getGuestNumber());
     } else {
@@ -49,11 +48,11 @@ const ChatHallContainer = () => {
       );
     }
 
-    // const onBeforeUnload = (e) => {
-    //   dispatch(leaveChatHall({ username: user.username }));
-    //   localStorage.removeItem('chatHall');
-    // };
-    // window.addEventListener('beforeunload', onBeforeUnload);
+    const onBeforeUnload = (e) => {
+      const username = userInfo ? userInfo.username : user.username;
+      socket.emit('leave_chat_hall', username);
+    };
+    window.addEventListener('beforeunload', onBeforeUnload);
     socket.on('broadcastMsg', (data) => {
       dispatch(receiveMessage({ received: true, ...data }));
     });
@@ -72,7 +71,7 @@ const ChatHallContainer = () => {
       dispatch(someoneInOut({ action: 'out', nickname: data }));
     });
     return () => {
-      console.log('clean up');
+      console.log('clean up', user);
       if (user) {
         const username = userInfo ? userInfo.username : user.username;
         socket.emit('leave_chat_hall', username);
@@ -80,6 +79,7 @@ const ChatHallContainer = () => {
       dispatch(leaveChatHall());
       localStorage.removeItem('chatHall');
       socket.removeAllListeners();
+      window.removeEventListener('beforeunload', onBeforeUnload);
     };
   }, [dispatch, user, userInfo]);
 
@@ -93,7 +93,8 @@ const ChatHallContainer = () => {
 
   const onSubmit = () => {
     if (msg === '') return;
-    socket.emit('msg', { nickname: user.nickname, msg: msg.trim() });
+    const nickname = userInfo ? userInfo.nickname : user.nickname;
+    socket.emit('msg', { nickname, msg: msg.trim() });
     dispatch(
       sendMessage({ send: true, nickname: user.nickname, msg: msg.trim() }),
     );

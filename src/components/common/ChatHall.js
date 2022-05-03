@@ -14,6 +14,7 @@ const ChatListContainer = styled.div`
   width: 65%;
   height: 100%;
   position: relative;
+  border: 1px solid #dfdfdf;
 `;
 const ChatScrollContainer = styled.div`
   padding: 10px;

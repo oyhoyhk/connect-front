@@ -7,6 +7,7 @@ const UserListBlock = styled.div`
   overflow-y: auto;
   padding-right: 10px;
   box-shadow: 3px 3px 3px gray;
+  border: 1px solid #dfdfdf;
 
   &::-webkit-scrollbar {
     width: 6px;
