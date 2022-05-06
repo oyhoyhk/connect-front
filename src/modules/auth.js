@@ -16,6 +16,8 @@ const [LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE] =
   createRequestActionTypes('auth/LOGIN');
 const [DUPLICATE_CHECK, DUPLICATE_CHECK_SUCCESS, DUPLICATE_CHECK_FAILURE] =
   createRequestActionTypes('auth/DUPLICATE_CHECK');
+const [MODIFY_INFO, MODIFY_INFO_SUCCESS, MODIFY_INFO_FAILURE] =
+  createRequestActionTypes('auth/MODIFY_INFO');
 
 export const changeField = createAction(
   CHANGE_FIELD,
@@ -48,17 +50,21 @@ export const duplicateCheck = createAction(DUPLICATE_CHECK, ({ username }) => ({
   username,
 }));
 export const removeAuth = createAction(REMOVE_AUTH);
-
+export const modifyInfo = createAction(MODIFY_INFO, (formData) => ({
+  formData,
+}));
 const registerSaga = createRequestSaga(REGISTER, authAPI.register);
 const loginSaga = createRequestSaga(LOGIN, authAPI.login);
 const duplicateCheckSaga = createRequestSaga(
   DUPLICATE_CHECK,
   authAPI.duplicateCheck,
 );
+const modifyInfoSaga = createRequestSaga(MODIFY_INFO, authAPI.modify);
 export function* authSaga() {
   yield takeLatest(REGISTER, registerSaga);
   yield takeLatest(LOGIN, loginSaga);
   yield takeLatest(DUPLICATE_CHECK, duplicateCheckSaga);
+  yield takeLatest(MODIFY_INFO, modifyInfoSaga);
 }
 
 const initialState = {

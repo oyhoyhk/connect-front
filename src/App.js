@@ -7,6 +7,7 @@ import RegisterPage from './pages/RegisterPage';
 import FriendsPage from './pages/FriendsPage';
 import ChattingListPage from './pages/ChattingListPage';
 import ChattingModalContainer from './containers/ChattingModal/ChattingModalContainer';
+import SettingPage from './pages/SettingPage';
 import { useSelector } from 'react-redux';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         <Route element={<ProfileSettingPage />} path="/profile" />
         <Route element={<FriendsPage />} path="/friends" />
         <Route element={<ChattingListPage />} path="/chatting" />
+        <Route element={<SettingPage />} path="/setting" />
       </Routes>
     </>
   );

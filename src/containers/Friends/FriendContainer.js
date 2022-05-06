@@ -29,7 +29,6 @@ const FriendContainer = ({
   };
   return (
     <Friend
-      status
       friendRequest={friendRequest}
       clickOptions={clickOptions}
       optionBox={optionBox}

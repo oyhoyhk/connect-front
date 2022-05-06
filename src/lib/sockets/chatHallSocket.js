@@ -1,7 +1,8 @@
 import io from 'socket.io-client';
+import * as gv from '../../global_variables';
 
 let uid = localStorage.user ? JSON.parse(localStorage.user).uid : null;
-export const socket = io('http://13.125.200.108:4000', {
+export const socket = io(gv.SOCKET_ADDRESS, {
   query: { uid },
   closeOnBeforeunload: false,
   cors: { origin: '*' },

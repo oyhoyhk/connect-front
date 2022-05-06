@@ -76,7 +76,7 @@ const RegisterButton = styled.button`
   cursor: pointer;
 `;
 
-const LoginForm = ({ onChange, form, errorMsg, onSubmit }) => {
+const LoginForm = ({ onChange, errorMsg, onSubmit }) => {
   return (
     <Background>
       <Title>Connect에 오신 것을 환영합니다.</Title>

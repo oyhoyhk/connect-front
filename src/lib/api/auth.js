@@ -16,3 +16,11 @@ export const logout = (uid) => client.post('/api/auth/logout?uid=' + uid);
 
 export const duplicateCheck = ({ username }) =>
   client.post('/api/auth/duplicate_check', { username });
+
+export const modify = ({ formData }) =>
+  client({
+    url: '/api/auth/modify',
+    method: 'post',
+    data: formData,
+    header: { 'Content-Type': 'multipart/form-data' },
+  });

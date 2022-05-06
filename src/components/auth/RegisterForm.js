@@ -87,6 +87,7 @@ const RegisterForm = ({ error, form, onChange, onSubmit }) => {
             name="username"
             type="text"
             placeholder="아이디"
+            maxLength="10"
             value={form.username}
           />
           <StyledInput
@@ -94,6 +95,7 @@ const RegisterForm = ({ error, form, onChange, onSubmit }) => {
             name="password"
             type="password"
             placeholder="비밀번호"
+            maxLength="8"
             value={form.password}
           />
           <StyledInput
@@ -101,6 +103,7 @@ const RegisterForm = ({ error, form, onChange, onSubmit }) => {
             name="passwordConfirm"
             type="password"
             placeholder="비밀번호 확인"
+            maxLength="8"
             value={form.passwordConfirm}
           />
         </InputBox>

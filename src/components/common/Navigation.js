@@ -56,7 +56,7 @@ const Navigation = ({ newMessages }) => {
           ''
         )}
       </NavigateLink>
-      <NavigateLink to="/setting">환경 설정</NavigateLink>
+      <NavigateLink to="/setting">개인 설정</NavigateLink>
     </NavigationBlock>
   );
 };

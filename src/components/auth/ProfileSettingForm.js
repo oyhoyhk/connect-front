@@ -96,7 +96,7 @@ const ProfileSettingForm = ({ onChange, username, onSubmit }) => {
               type="text"
               placeholder={username}
               onChange={onChange}
-              maxLength="10"
+              maxLength="8"
             />
           </NicknameContainer>
           <ButtonContainer>
