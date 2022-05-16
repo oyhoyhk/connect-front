@@ -51,7 +51,6 @@ const ProfileSettingContainer = () => {
 
   useEffect(() => {
     if (auth) {
-      console.log('회원 가입 성공, auth : ', auth);
       dispatch(check());
     }
   }, [dispatch, auth]);

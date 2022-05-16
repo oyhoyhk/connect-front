@@ -49,9 +49,7 @@ const requestChattingListSaga = createRequestSaga(
 function* closeChatSaga({ payload: { sender, receiver } }) {
   try {
     yield call(chattingAPI.closeChat, { sender, receiver });
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 export function* chattingSaga() {

@@ -33,11 +33,9 @@ const LoginContainer = () => {
   useEffect(() => {
     if (authError) {
       setErr(true);
-      console.log('로그인 실패');
       return;
     }
     if (auth) {
-      console.log('로그인 성공');
       dispatch(check());
     }
   }, [authError, auth, dispatch]);

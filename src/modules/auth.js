@@ -117,7 +117,6 @@ const auth = handleActions(
       },
     }),
     [REGISTER_SUCCESS]: (state, action) => {
-      console.log(action);
       return {
         ...state,
         authError: null,
@@ -138,7 +137,6 @@ const auth = handleActions(
       authError: error,
     }),
     [DUPLICATE_CHECK_SUCCESS]: (state, { payload: result }) => {
-      console.log(result);
       return {
         ...state,
         isDuplicate: result === 1 ? true : false,

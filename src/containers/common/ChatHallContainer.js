@@ -7,12 +7,9 @@ import {
   sendMessage,
   receiveMessage,
   setUserList,
-  getUserInfo,
-  setChatHall,
   leaveChatHall,
   someoneLeft,
   someoneInOut,
-  initializeChatHall,
 } from '../../modules/chatHall';
 
 const ChatHallContainer = () => {
@@ -66,12 +63,10 @@ const ChatHallContainer = () => {
       );
     });
     socket.on('someone_left', (data) => {
-      console.log('someone_left, data : ', data);
       dispatch(someoneLeft(data));
       dispatch(someoneInOut({ action: 'out', nickname: data }));
     });
     return () => {
-      console.log('clean up', user);
       if (user) {
         const username = userInfo ? userInfo.username : user.username;
         socket.emit('leave_chat_hall', username);

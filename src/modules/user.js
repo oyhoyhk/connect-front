@@ -27,18 +27,14 @@ const modifyInfoSaga = createRequestSaga(MODIFY_INFO, authAPI.modify);
 function checkFailureSaga() {
   try {
     localStorage.removeItem('user');
-  } catch (e) {
-    console.log('localStorage is not working');
-  }
+  } catch (e) {}
 }
 
 function* logoutSaga({ payload: { uid } }) {
   try {
     yield call(authAPI.logout, uid);
     localStorage.removeItem('user');
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 }
 
 export function* userSaga() {

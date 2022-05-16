@@ -26,7 +26,6 @@ const RecommendContainer = () => {
   const requestFriendEnrollment = (receiver) => {
     const sender = JSON.parse(localStorage.user);
     dispatch(friendRequest({ sender, receiver }));
-    receiver.type = 'sendered';
     dispatch(addMessageWhenFriendRequest(receiver));
   };
   return (

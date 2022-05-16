@@ -26,7 +26,6 @@ const NoticeContainer = ({ sender, profileImage, nickname, type, time }) => {
   const onCancel = (e) => {
     e.stopPropagation();
     // const sender = JSON.parse(localStorage.user).uid;
-    console.log('cancel', sender, receiver);
     dispatch(
       refuseFriendRequest({
         sender: receiver,

@@ -253,7 +253,6 @@ export default handleActions(
       friendsList: [...state.friendsList, info],
     }),
     [FRIEND_REQUEST_REFUSED]: (state, { payload: uid }) => {
-      console.log(uid);
       return {
         ...state,
         messagesList: state.messagesList.filter((el) => el.uid !== uid),

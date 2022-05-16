@@ -15,7 +15,6 @@ const NoticeListBlock = styled.div`
 `;
 
 const NoticeList = ({ messages }) => {
-  console.log(messages);
   return (
     <NoticeListBlock>
       {messages.map(({ type, time, uid, profileImage, nickname }) => (
