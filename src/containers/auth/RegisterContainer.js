@@ -62,7 +62,6 @@ const RegisterContainer = () => {
     dispatch(initializeForm('register'));
   }, [dispatch]);
 
-  useEffect(() => {});
   return (
     <RegisterForm
       error={error}

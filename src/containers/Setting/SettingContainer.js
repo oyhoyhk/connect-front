@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Setting from '../../components/Setting/Setting';
 import imageCompression from '../../../node_modules/browser-image-compression/dist/browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
-import { modifyInfo } from '../../modules/auth';
+import { modifyInfo } from '../../modules/user';
 
 const SettingContainer = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -32,10 +32,18 @@ const SettingContainer = () => {
         return;
       }
       const formData = new FormData();
+      const { uid, profileImage: previousProfileImage } = JSON.parse(
+        localStorage.user,
+      );
+      formData.append('idx', uid);
       formData.append('password', pw.value);
       formData.append('nickname', nickname.value);
       formData.append('profileImage', profileImage);
+      formData.append('previousProfileImage', previousProfileImage);
       dispatch(modifyInfo(formData));
+      nickname.value = '';
+      pw.value = '';
+      pwCheck.value = '';
     }
   };
   return (
