@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Setting from '../../components/Setting/Setting';
 import imageCompression from '../../../node_modules/browser-image-compression/dist/browser-image-compression';
 import { useDispatch, useSelector } from 'react-redux';
 import { modifyInfo } from '../../modules/user';
+import client from '../../lib/api/client';
 
 const SettingContainer = () => {
+  const [blockList, setBlockList] = useState(null);
+
   const [profileImage, setProfileImage] = useState(null);
   const { user } = useSelector(({ user }) => ({ user: user.user }));
   const [errMsg, setErrMsg] = useState('');
@@ -19,6 +22,15 @@ const SettingContainer = () => {
       imageCompression(e.target.files[0]).then((res) => setProfileImage(res));
     }
   };
+
+  useEffect(() => {
+    const getList = async () => {
+      const list = await client.get('/api/friends/block_list?uid=' + user.uid);
+      setBlockList(list.data);
+    };
+    getList();
+  }, [user]);
+
   const onSubmit = (e) => {
     e.preventDefault();
     const { nickname, pw, pwCheck } = e.target;
@@ -46,12 +58,23 @@ const SettingContainer = () => {
       pwCheck.value = '';
     }
   };
+  const cancelBlock = (other) => {
+    const getList = async () => {
+      const list = await client.delete(
+        `/api/friends/block_list?uid=${user.uid}&other=${other}`,
+      );
+      setBlockList(list.data);
+    };
+    getList();
+  };
   return (
     <Setting
       onChange={onChange}
       user={user}
       onSubmit={onSubmit}
       errMsg={errMsg}
+      blockList={blockList}
+      cancelBlock={cancelBlock}
     />
   );
 };

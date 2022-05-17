@@ -139,6 +139,8 @@ const Friend = ({
   optionBox,
   onChatting,
   status,
+  clickBlockUser,
+  deleteFriend,
 }) => {
   return (
     <FriendBlock>
@@ -152,9 +154,11 @@ const Friend = ({
         <OptionBox
           clickOptions={clickOptions}
           onChatting={onChatting}
-          receiver={receiver}
+          receiver={{ receiver, nickname, profileImage }}
           friendRequest={friendRequest}
           type={type}
+          clickBlockUser={clickBlockUser}
+          deleteFriend={deleteFriend}
         />
       ) : (
         ''

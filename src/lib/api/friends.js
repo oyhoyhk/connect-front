@@ -29,3 +29,9 @@ export const refuseFriendRequest = ({ sender, receiver, type }) =>
   client.delete(
     `/api/friends/messages?sender=${sender}&receiver=${receiver}&type=${type}`,
   );
+
+export const blockUser = ({ uid, other, tags }) =>
+  client.post('/api/friends/block', { uid, other, tags });
+
+export const deleteFriend = ({ uid, fuid }) =>
+  client.delete(`/api/friends/friends?uid=${uid}&fuid=${fuid}`);

@@ -44,7 +44,12 @@ const RecommendListBlock = styled.div`
   border-radius: 10px;
   padding: 5px;
 `;
-const RecommendList = ({ friendRequest, onRefresh, recommendList }) => {
+const RecommendList = ({
+  friendRequest,
+  onRefresh,
+  recommendList,
+  clickBlockUser,
+}) => {
   return (
     <RecommendListContainer>
       <RecommendListTitleContainer>
@@ -62,6 +67,7 @@ const RecommendList = ({ friendRequest, onRefresh, recommendList }) => {
             profileImage={profileImage}
             tags={tags}
             status={true}
+            clickBlockUser={clickBlockUser}
           />
         ))}
       </RecommendListBlock>

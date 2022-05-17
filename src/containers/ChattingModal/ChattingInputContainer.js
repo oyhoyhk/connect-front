@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import ChattingInput from '../../components/ChattingModal/ChattingInput';
-import { socket } from '../../lib/sockets/chatHallSocket';
+import { socket } from '../../lib/sockets/socket';
 import { sendChatting } from '../../modules/chatting';
 
 const ChattingInputContainer = ({ receiver }) => {

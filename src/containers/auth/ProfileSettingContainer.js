@@ -5,6 +5,7 @@ import { initializeForm, register } from '../../modules/auth';
 import imageCompression from '../../../node_modules/browser-image-compression/dist/browser-image-compression';
 import { useNavigate } from '../../../node_modules/react-router/index';
 import { check } from '../../modules/user';
+import { socket } from '../../lib/sockets/socket';
 
 const ProfileSettingContainer = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,7 @@ const ProfileSettingContainer = () => {
     if (user) {
       dispatch(initializeForm('register'));
       localStorage.setItem('user', JSON.stringify(user));
+      socket.emit('login', user.uid);
       navigate('/friends');
     }
   }, [navigate, user, dispatch]);

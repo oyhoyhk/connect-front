@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import ChatHall from '../../components/common/ChatHall';
 import { useDispatch, useSelector } from 'react-redux';
-import { socket } from '../../lib/sockets/chatHallSocket';
+import { socket } from '../../lib/sockets/socket';
 import {
   getGuestNumber,
   sendMessage,

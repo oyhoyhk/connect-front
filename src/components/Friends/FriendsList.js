@@ -58,7 +58,7 @@ const CustomScroll = styled.div`
   transition:.3s;
 `;
 
-const FriendsList = ({ friendsList, pagination, total }) => {
+const FriendsList = ({ friendsList, pagination, total, clickDeleteFriend }) => {
   return (
     <FriendsListContainer>
       <FriendsListTitle>친구 목록</FriendsListTitle>
@@ -73,6 +73,7 @@ const FriendsList = ({ friendsList, pagination, total }) => {
               nickname={nickname}
               tags={tags}
               type="friends"
+              deleteFriend={clickDeleteFriend}
             />
           ),
         )}

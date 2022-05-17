@@ -57,6 +57,11 @@ const [
   CANCEL_FRIEND_REQUEST_FAILURE,
 ] = createRequestActionTypes('friend/CANCEL_FRIEND_REQUEST');
 
+const [BLOCK_USER, BLOCK_USER_SUCCESS, BLOCK_USER_FAILURE] =
+  createRequestActionTypes('friends/BLOCK_USER');
+const [DELETE_FRIEND, DELETE_FRIEND_SUCCESS, DELETE_FRIEND_FAILURE] =
+  createRequestActionTypes('friends/DELETE_FRIEND');
+
 export const loadTags = createAction(LOAD_TAGS);
 export const addTag = createAction(ADD_TAG);
 export const addTagInFront = createAction(ADD_TAG_IN_FRONT);
@@ -77,6 +82,8 @@ export const addMessageWhenFriendRequest = createAction(
 export const cancelFriendRequest = createAction(CANCEL_FRIEND_REQUEST);
 export const someoneLogin = createAction(SOMEONE_LOGIN);
 export const someoneLogout = createAction(SOMEONE_LOGOUT);
+export const blockUser = createAction(BLOCK_USER);
+export const deleteFriend = createAction(DELETE_FRIEND);
 
 const loadFriendsListSaga = createRequestSaga(LOAD_FRIENDS_LIST);
 const loadTagsSaga = createRequestSaga(LOAD_TAGS, friendsAPI.loadTags);
@@ -106,6 +113,11 @@ const refuseFriendRequestSaga = createRequestSaga(
   REFUSE_FRIEND_REQUEST,
   friendsAPI.refuseFriendRequest,
 );
+const blockUserSaga = createRequestSaga(BLOCK_USER, friendsAPI.blockUser);
+const deleteFriendSaga = createRequestSaga(
+  DELETE_FRIEND,
+  friendsAPI.deleteFriend,
+);
 
 export function* friendsSaga() {
   yield takeLatest(LOAD_FRIENDS_LIST, loadFriendsListSaga);
@@ -118,6 +130,8 @@ export function* friendsSaga() {
   yield takeLatest(REQUEST_MESSAGES_LIST, requestMessagesListSaga);
   yield takeLatest(ACCEPT_FRIEND_REQUEST, acceptFriendRequestSaga);
   yield takeLatest(REFUSE_FRIEND_REQUEST, refuseFriendRequestSaga);
+  yield takeLatest(BLOCK_USER, blockUserSaga);
+  yield takeLatest(DELETE_FRIEND, deleteFriendSaga);
 }
 
 const initialState = {
@@ -301,6 +315,22 @@ export default handleActions(
           else if (!a.status && b.status) return 1;
           else return a.uid - b.uid;
         }),
+    }),
+    [BLOCK_USER_SUCCESS]: (state, { payload: list }) => ({
+      ...state,
+      recommendList: [...list],
+    }),
+    [BLOCK_USER_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
+    }),
+    [DELETE_FRIEND_SUCCESS]: (state, { payload: friendsList }) => ({
+      ...state,
+      friendsList: [...friendsList],
+    }),
+    [DELETE_FRIEND_FAILURE]: (state, { payload: error }) => ({
+      ...state,
+      error,
     }),
   },
   initialState,

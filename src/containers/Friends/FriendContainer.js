@@ -12,6 +12,8 @@ const FriendContainer = ({
   tags,
   type,
   status,
+  clickBlockUser,
+  deleteFriend,
 }) => {
   const [optionBox, setOptionBox] = useState(false);
   const clickOptions = () => {
@@ -39,6 +41,8 @@ const FriendContainer = ({
       receiver={receiver}
       onChatting={onChatting}
       status={status}
+      clickBlockUser={clickBlockUser}
+      deleteFriend={deleteFriend}
     />
   );
 };

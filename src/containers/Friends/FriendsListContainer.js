@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import FriendsList from '../../components/Friends/FriendsList';
 import { debounce } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { requestFriendsList } from '../../modules/friends';
+import { requestFriendsList, deleteFriend } from '../../modules/friends';
 import { requestChattingList } from '../../modules/chatting';
 
 const FriendsListContainer = () => {
@@ -30,12 +30,16 @@ const FriendsListContainer = () => {
       window.removeEventListener('wheel', scrollHandler);
     };
   }, [pagination, scrollHandler]);
-
+  const clickDeleteFriend = (fuid) => {
+    const { uid } = JSON.parse(localStorage.user);
+    dispatch(deleteFriend({ uid, fuid }));
+  };
   return (
     <FriendsList
       friendsList={friendsList.slice(pagination * 10, (pagination + 1) * 10)}
       pagination={pagination}
       total={MAX_PAGINATION}
+      clickDeleteFriend={clickDeleteFriend}
     />
   );
 };

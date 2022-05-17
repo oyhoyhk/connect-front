@@ -4,6 +4,7 @@ import { useNavigate } from '../../../node_modules/react-router/index';
 import LoginForm from '../../components/auth/LoginForm';
 import { changeField, initializeForm, login } from '../../modules/auth';
 import { check } from '../../modules/user';
+import { socket } from '../../lib/sockets/socket';
 
 const LoginContainer = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ const LoginContainer = () => {
       dispatch(initializeForm('login'));
       try {
         localStorage.setItem('user', JSON.stringify(user));
+        socket.emit('login', user.uid);
         navigate('/friends');
       } catch (e) {
         console.error(e);

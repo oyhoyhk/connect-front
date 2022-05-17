@@ -49,6 +49,8 @@ const OptionBox = ({
   receiver,
   friendRequest,
   type,
+  clickBlockUser,
+  deleteFriend,
 }) => {
   const onClick = () => {
     friendRequest(receiver);
@@ -58,12 +60,12 @@ const OptionBox = ({
     <OptionContainer type={type}>
       <Chat title="채팅하기" onClick={onChatting} />
       <Add onClick={onClick} title="친구추가" />
-      <Remove title="관심없음" />
+      <Remove title="관심없음" onClick={() => clickBlockUser(receiver)} />
     </OptionContainer>
   ) : (
     <OptionContainer type={type}>
       <Chat title="채팅하기" onClick={onChatting} />
-      <Remove title="친구삭제" />
+      <Remove title="친구삭제" onClick={() => deleteFriend(receiver)} />
     </OptionContainer>
   );
 };

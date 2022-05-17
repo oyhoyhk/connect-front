@@ -14,7 +14,7 @@ import {
   someoneLogout,
 } from '../../modules/friends';
 import { logout } from '../../modules/user';
-import { socket } from '../../lib/sockets/chatHallSocket';
+import { socket } from '../../lib/sockets/socket';
 import { useNavigate } from '../../../node_modules/react-router/index';
 import { receiveChatting } from '../../modules/chatting';
 const HeaderContainer = () => {

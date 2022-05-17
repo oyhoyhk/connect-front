@@ -5,6 +5,7 @@ import {
   getRecommend,
   friendRequest,
   addMessageWhenFriendRequest,
+  blockUser,
 } from '../../modules/friends';
 
 const RecommendContainer = () => {
@@ -25,14 +26,19 @@ const RecommendContainer = () => {
   };
   const requestFriendEnrollment = (receiver) => {
     const sender = JSON.parse(localStorage.user);
-    dispatch(friendRequest({ sender, receiver }));
+    console.log(receiver);
+    dispatch(friendRequest({ sender, receiver: receiver.receiver }));
     dispatch(addMessageWhenFriendRequest(receiver));
+  };
+  const clickBlockUser = (other) => {
+    dispatch(blockUser({ uid, other, tags }));
   };
   return (
     <RecommendList
       friendRequest={requestFriendEnrollment}
       recommendList={recommendList}
       onRefresh={onRefresh}
+      clickBlockUser={clickBlockUser}
     />
   );
 };
