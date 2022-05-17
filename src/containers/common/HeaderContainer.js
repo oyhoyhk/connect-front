@@ -74,11 +74,6 @@ const HeaderContainer = () => {
       socket.on('someone_send_message', ({ sender, message, chatList }) => {
         dispatch(receiveChatting({ sender, message, chatList }));
       });
-      window.addEventListener('beforeunload', () => {
-        dispatch(logout({ uid: user.uid }));
-        dispatch(removeAuth());
-        localStorage.removeItem('user');
-      });
     }
     return () => {
       socket.off();
